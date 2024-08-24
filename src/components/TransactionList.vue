@@ -1,0 +1,33 @@
+<script setup>
+import { defineProps, defineEmits } from 'vue'
+
+const props = defineProps({
+  transactions: {
+    type: Array,
+    required: true
+  }
+})
+
+const emit = defineEmits(['delete-transaction'])
+
+function deleteTransaction(id) {
+  emit('delete-transaction', id)
+}
+</script>
+
+<template>
+  <h3>History</h3>
+  <ul id="list" class="list">
+    <li
+      v-for="transaction in props.transactions"
+      :key="transaction.id"
+      :class="transaction.amount < 0 ? 'minus' : 'plus'"
+    >
+      {{ transaction.text }}
+      <span>${{ transaction.amount }}</span>
+      <button class="delete-btn" @click="deleteTransaction(transaction.id)">
+        x
+      </button>
+    </li>
+  </ul>
+</template>
